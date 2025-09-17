@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limites e Continuidade</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.24.2/dist/plotly.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Noções Intuitivas de Limites e Continuidade</h1>
+            <p>Uma abordagem prática para estudantes de Análise e Desenvolvimento de Sistemas</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#limites">Limites</a></li>
+                <li><a href="#continuidade">Continuidade</a></li>
+                <li><a href="#exemplos-ti">Exemplos em TI</a></li>
+                <li><a href="#interativo">Área Interativa</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+
+        <section id="limites" class="container section">
+            <h2>Limites: O Fundamento do Cálculo</h2>
+            <div class="content-box">
+                <h3>O que são limites?</h3>
+                <p>Um limite é como "prever" para onde uma função está indo quando se aproxima de um valor específico, mesmo que a função não esteja definida nesse valor.</p>
+                <p>Pense em um limite como um GPS prevendo onde você estará em 5 minutos com base na sua velocidade e direção atuais.</p>
+                <p>Formalmente, escrevemos: \(\lim_{x \to a} f(x) = L\)</p>
+                <p>Isso significa: "À medida que \(x\) se aproxima de \(a\), a função \(f(x)\) se aproxima do valor \(L\)".</p>
+                
+                <h3>Exemplos Práticos de Limites</h3>
+                
+                <div class="example-box">
+                    <h4>1. Velocidade Instantânea</h4>
+                    <p>Quando você dirige e olha para o velocímetro, ele mostra sua velocidade em um instante específico. Matematicamente, isso é um limite: a distância percorrida dividida pelo tempo, quando o intervalo de tempo se aproxima de zero.</p>
+                    <p class="formula">\(\text{Velocidade} = \lim_{\Delta t \to 0} \frac{\Delta \text{distância}}{\Delta t}\)</p>
+                </div>
+                
+                <div class="example-box">
+                    <h4>2. Previsão de Tráfego de Rede</h4>
+                    <p>Sistemas de monitoramento de rede usam limites para prever quando um servidor atingirá sua capacidade máxima. Analisando a tendência do tráfego, podemos calcular o limite de uso à medida que o tempo avança.</p>
+                    <p class="formula">\(\lim_{t \to t_0} \text{Tráfego}(t) = \text{Capacidade Máxima}\)</p>
+                </div>
+                
+                <div class="example-box">
+                    <h4>3. Compressão de Dados</h4>
+                    <p>Algoritmos de compressão como JPEG e MP3 usam limites para determinar quais informações podem ser descartadas sem afetar significativamente a qualidade percebida pelo usuário.</p>
+                </div>
+                
+                <p><strong>Exemplo do dia-a-dia:</strong> Quando você se aproxima de um semáforo, sua velocidade se aproxima de zero. O limite da sua velocidade quando chega ao semáforo é zero, mesmo que você nunca pare completamente.</p>
+                
+                <div class="interactive-element">
+                    <h3>Visualização de Limites</h3>
+                    <p>No gráfico abaixo, observe como a função se comporta quando se aproxima do ponto vermelho, mesmo que não esteja definida exatamente nesse ponto.</p>
+                    <div id="limit-graph" class="graph-container"></div>
+                    <div class="graph-controls">
+                        <button id="limit-function-1" class="btn active">Função 1</button>
+                        <button id="limit-function-2" class="btn">Função 2</button>
+                        <button id="limit-function-3" class="btn">Função 3</button>
+                    </div>
+                    <p class="graph-description">Este gráfico interativo demonstra como diferentes funções se comportam próximo a pontos críticos. Experimente as diferentes funções para visualizar como os limites funcionam em cada caso.</p>
+                </div>
+                
+                <h3>Limites na Computação</h3>
+                <p>Na área de TI, limites são fundamentais para:</p>
+                <ul>
+                    <li><strong>Análise de Desempenho:</strong> Prever como um algoritmo se comportará com grandes volumes de dados</li>
+                    <li><strong>Machine Learning:</strong> Algoritmos de gradiente descendente usam limites para encontrar mínimos de funções de erro</li>
+                    <li><strong>Processamento de Sinais:</strong> Filtros digitais usam limites para suavizar sinais e remover ruídos</li>
+                    <li><strong>Computação Gráfica:</strong> Renderização de curvas suaves e superfícies 3D</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="continuidade" class="container section">
+            <h2>Continuidade: Funções Sem Interrupções</h2>
+            <div class="content-box">
+                <h3>O que é continuidade?</h3>
+                <p>Uma função é contínua quando você pode desenhar seu gráfico sem tirar o lápis do papel - não há "saltos" ou "buracos".</p>
+                <p><strong>Exemplo do dia-a-dia:</strong> O volume do seu celular quando você usa o controle deslizante é uma função contínua - ele muda suavemente de 0% a 100% sem pular nenhum valor.</p>
+                
+                <p>Formalmente, uma função \(f(x)\) é contínua em \(x = a\) se:</p>
+                <ol>
+                    <li>\(f(a)\) está definido (a função existe no ponto \(a\))</li>
+                    <li>\(\lim_{x \to a} f(x)\) existe (o limite existe)</li>
+                    <li>\(\lim_{x \to a} f(x) = f(a)\) (o limite é igual ao valor da função)</li>
+                </ol>
+                
+                <h3>Exemplos Práticos de Continuidade</h3>
+                
+                <div class="example-box">
+                    <h4>1. Streaming de Vídeo</h4>
+                    <p>Quando você assiste a um vídeo em streaming, a taxa de transferência de dados precisa ser contínua para evitar travamentos. Algoritmos de buffering são projetados para manter essa continuidade mesmo quando a conexão varia.</p>
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0wLDUwIEMxMCw1MCAxNSw4MCAyNSw4MCBDMzUsODAgNDAsNTAgNTAsNTAgQzYwLDUwIDY1LDIwIDc1LDIwIEM4NSwyMCA5MCw1MCAxMDAsNTAgQzExMCw1MCAxMTUsODAgMTI1LDgwIEMxMzUsODAgMTQwLDUwIDE1MCw1MCBDMTYwLDUwIDE2NSwyMCAxNzUsMjAgQzE4NSwyMCAxOTAsNTAgMjAwLDUwIEMyMTAsNTAgMjE1LDgwIDIyNSw4MCBDMjM1LDgwIDI0MCw1MCAyNTAsNTAgQzI2MCw1MCAyNjUsMjAgMjc1LDIwIEMyODUsMjAgMjkwLDUwIDMwMCw1MCIgc3Ryb2tlPSIjMDA3YmZmIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgIDx0ZXh0IHg9IjEwIiB5PSIxNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzMzIj5UYXhhIGRlIHRyYW5zZmVyw6puY2lhPC90ZXh0PgogICAgPHRleHQgeD0iMTAiIHk9Ijk1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMzMzMiPlRlbXBvPC90ZXh0Pgo8L3N2Zz4=" alt="Gráfico de streaming contínuo" class="inline-graph">
+                </div>
+                
+                <div class="example-box">
+                    <h4>2. Processamento de Imagens</h4>
+                    <p>Filtros de suavização em editores de imagem usam funções contínuas para criar transições suaves entre pixels, eliminando ruídos e bordas irregulares.</p>
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxyZWN0IHg9IjUwIiB5PSIyMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBlMGUwIiBzdHJva2U9IiM5OTkiLz4KICAgIDxyZWN0IHg9IjE3MCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2UwZTBlMCIgc3Ryb2tlPSIjOTk5Ii8+CiAgICA8cGF0aCBkPSJNNTAsNTAgTDEzMCw1MCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgIDxwYXRoIGQ9Ik0xNzAsNTAgUzE4MCwzMCAxOTAsNTAgUzIwMCw3MCAyMTAsNTAgUzIyMCwzMCAyMzAsNTAgUzI0MCw3MCAyNTAsNTAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+CiAgICA8dGV4dCB4PSI1MCIgeT0iMTUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzMzMyI+QW50ZXM8L3RleHQ+CiAgICA8dGV4dCB4PSIxNzAiIHk9IjE1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMzMzMiPkRlcG9pcyAoU3VhdmlhemFkbyk8L3RleHQ+Cjwvc3ZnPg==" alt="Suavização de imagem" class="inline-graph">
+                </div>
+                
+                <div class="example-box">
+                    <h4>3. Inteligência Artificial</h4>
+                    <p>Redes neurais usam funções de ativação contínuas (como ReLU, Sigmoid e Tanh) para permitir o treinamento por gradiente descendente, essencial para o aprendizado de máquina.</p>
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDwhLS0gU2lnbW9pZCAtLT4KICAgIDxwYXRoIGQ9Ik0xMCw4MCBDMTAsODAgNDAsODAgNTAsMzAgQzYwLDEwIDkwLDEwIDkwLDEwIiBzdHJva2U9IiMwMDdiZmYiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHRleHQgeD0iMzAiIHk9IjE1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMzMzMiPlNpZ21vaWQ8L3RleHQ+CiAgICAKICAgIDwhLS0gUmVMVSAtLT4KICAgIDxwYXRoIGQ9Ik0xMTAsNTAgTDE1MCw1MCBMMTkwLDEwIiBzdHJva2U9IiNmZjc3MDAiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHRleHQgeD0iMTMwIiB5PSIxNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjMzMzIj5SZUxVPC90ZXh0PgogICAgCiAgICA8IS0tIFRhbmggLS0+CiAgICA8cGF0aCBkPSJNMjEwLDgwIEMyMTAsODAgMjIwLDIwIDI1MCw1MCBDMjgwLDgwIDI5MCwyMCAyOTAsMjAiIHN0cm9rZT0iIzI4YTc0NSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSIyMzAiIHk9IjE1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMzMzMiPlRhbmg8L3RleHQ+Cjwvc3ZnPg==" alt="Funções de ativação" class="inline-graph">
+                </div>
+                
+                <p><strong>Na prática:</strong> Aplicativos de navegação GPS precisam de funções contínuas para calcular rotas suaves. Se a função de distância tivesse descontinuidades, seu GPS poderia mostrar você "teleportando" de um lugar para outro!</p>
+                
+                <div class="interactive-element">
+                    <h3>Visualização de Continuidade</h3>
+                    <p>No gráfico abaixo, você pode ver exemplos de funções contínuas e descontínuas. As descontinuidades são como "interrupções" no fluxo da função.</p>
+                    <div id="continuity-graph" class="graph-container"></div>
+                    <div class="graph-controls">
+                        <button id="continuity-function-1" class="btn active">Função Contínua</button>
+                        <button id="continuity-function-2" class="btn">Descontinuidade Removível</button>
+                        <button id="continuity-function-3" class="btn">Descontinuidade Essencial</button>
+                    </div>
+                    <p class="graph-description">Este gráfico interativo demonstra diferentes tipos de continuidade e descontinuidade. Experimente os botões para visualizar cada caso e entender como as funções se comportam.</p>
+                </div>
+                
+                <h3>Continuidade na Tecnologia</h3>
+                <p>Na área de TI, a continuidade é crucial para:</p>
+                <ul>
+                    <li><strong>Renderização 3D:</strong> Superfícies suaves em jogos e simulações</li>
+                    <li><strong>Processamento de Áudio:</strong> Transições suaves entre frequências para evitar ruídos</li>
+                    <li><strong>Animações Digitais:</strong> Movimentos naturais e fluidos</li>
+                    <li><strong>Sistemas de Controle:</strong> Respostas previsíveis em automação e robótica</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="exemplos-ti" class="container section">
+            <h2>Aplicações em Tecnologia da Informação</h2>
+            <div class="content-box">
+                <h3>1. Análise de Algoritmos no Dia-a-Dia</h3>
+                <p>Quando você usa aplicativos como Google Maps ou Waze, algoritmos de roteamento precisam calcular o caminho mais rápido. A eficiência desses algoritmos é analisada usando limites matemáticos.</p>
+                <p>Por exemplo, ao comparar dois algoritmos de ordenação usados em bancos de dados:</p>
+                <div class="code-example">
+                    <pre><code>
+// Exemplo: Algoritmos usados em sistemas reais
+// Bubble Sort (usado em sistemas simples) vs Merge Sort (usado em sistemas grandes)
+
+function bubbleSort(arr) {  // O(n²) - mais lento para grandes conjuntos
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            }
+        }
+    }
+}
+
+function mergeSort(arr) {  // O(n log n) - mais rápido para grandes conjuntos
+    if (arr.length <= 1) return arr;
+    
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid));
+    
+    return merge(left, right);
+}
+                    </code></pre>
+                </div>
+                <p>Na prática: Um sistema de e-commerce com 1 milhão de produtos usando Bubble Sort poderia levar horas para ordenar produtos por preço, enquanto com Merge Sort levaria segundos.</p>
+                <div id="algorithm-comparison" class="graph-container"></div>
+                <p class="graph-description">Este gráfico mostra como o tempo de execução de diferentes algoritmos cresce com o tamanho da entrada. Observe como alguns algoritmos têm crescimento mais rápido que outros.</p>
+                
+                <h3>2. Inteligência Artificial no Seu Smartphone</h3>
+                <p>Os assistentes virtuais como Siri, Google Assistant e Alexa usam redes neurais que dependem de funções contínuas para reconhecimento de voz e processamento de linguagem natural.</p>
+                <p>As funções de ativação determinam se um neurônio artificial "dispara" ou não, semelhante aos neurônios do cérebro humano:</p>
+                <div id="activation-functions" class="graph-container"></div>
+                <p class="graph-description">Visualização de como diferentes funções de ativação transformam os sinais de entrada em uma rede neural, mantendo a continuidade necessária para o aprendizado.</p>
+                <p>Na prática: Quando você diz "Hey Siri" ou "Ok Google", essas funções ajudam a determinar se o que você disse corresponde ao comando de ativação.</p>
+                
+                <h3>3. Otimização em Aplicativos de Streaming</h3>
+                <p>Serviços como Netflix e Spotify usam algoritmos de otimização para recomendar conteúdo e ajustar a qualidade do streaming baseado na sua conexão.</p>
+                <p>O algoritmo Gradient Descent é usado para minimizar erros em sistemas de recomendação:</p>
+                <div id="gradient-descent" class="graph-container"></div>
+                <p class="graph-description">Este gráfico demonstra como a qualidade do streaming se adapta continuamente à largura de banda disponível, usando limites para otimizar a experiência do usuário.</p>
+                <p>Na prática: Quando o Netflix sugere um filme que você realmente gosta, isso é resultado de um processo de otimização matemática que usa conceitos de limites e derivadas.</p>
+                
+                <h3>4. Compressão de Imagens e Vídeos</h3>
+                <p>Quando você envia uma foto pelo WhatsApp ou assiste um vídeo no YouTube, algoritmos de compressão estão trabalhando para reduzir o tamanho dos arquivos mantendo a qualidade aceitável.</p>
+                <p>Esses algoritmos usam funções contínuas para determinar quais informações podem ser descartadas com o mínimo impacto visual perceptível.</p>
+                <div id="compression-graph" class="graph-container"></div>
+                <p class="graph-description">Visualização de como a compressão afeta o tamanho do arquivo e a qualidade da imagem, usando limites para determinar quais informações podem ser descartadas.</p>
+                <p>Na prática: Existe um limite matemático para quanto uma imagem pode ser comprimida antes de perder qualidade visível - este é um exemplo direto de limites em ação!</p>
+                
+                <h3>5. Sistemas de Cache e Memória</h3>
+                <p>Os sistemas de cache em computadores usam limites e continuidade para prever quais dados serão necessários em breve, mantendo-os em memória rápida para acesso imediato.</p>
+                <div class="example-box">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxyZWN0IHg9IjUwIiB5PSIyMCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIzMCIgZmlsbD0iI2U2ZjdmZiIgc3Ryb2tlPSIjMDA3YmZmIi8+CiAgICA8dGV4dCB4PSIxMjAiIHk9IjQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMzMzMiPkNhY2hlIEwxPC90ZXh0PgogICAgCiAgICA8cmVjdCB4PSIzMCIgeT0iNzAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMzAiIGZpbGw9IiNlMGYwZTAiIHN0cm9rZT0iIzI4YTc0NSIvPgogICAgPHRleHQgeD0iMTIwIiB5PSI5MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzMzIj5DYWNoZSBMMjwvdGV4dD4KICAgIAogICAgPHJlY3QgeD0iMTAiIHk9IjEyMCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIzMCIgZmlsbD0iI2ZmZjBlMCIgc3Ryb2tlPSIjZmY3NzAwIi8+CiAgICA8dGV4dCB4PSIxMjAiIHk9IjE0MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzMzIj5NZW3Ds3JpYSBQcmluY2lwYWw8L3RleHQ+CiAgICAKICAgIDwhLS0gRmxlY2hhcyAtLT4KICAgIDxwYXRoIGQ9Ik0xNTAsNTAgTDE1MCw3MCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+CiAgICA8cGF0aCBkPSJNMTUwLDEwMCBMMTUwLDEyMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+CiAgICAKICAgIDwhLS0gTWFyY2Fkb3IgZGUgc2V0YSAtLT4KICAgIDxkZWZzPgogICAgICAgIDxtYXJrZXIgaWQ9ImFycm93IiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iMTAiIHJlZlg9IjkiIHJlZlk9IjMiIG9yaWVudD0iYXV0byIgbWFya2VyVW5pdHM9InN0cm9rZVdpZHRoIj4KICAgICAgICAgICAgPHBhdGggZD0iTTAsMCBMOSwzIEwwLDYiIGZpbGw9IiMzMzMiLz4KICAgICAgICA8L21hcmtlcj4KICAgIDwvZGVmcz4KPC9zdmc+" alt="Hierarquia de cache" class="inline-graph">
+                    <p>A hierarquia de cache usa o princípio de localidade temporal e espacial, baseado em limites matemáticos, para prever quais dados serão necessários em breve.</p>
+                </div>
+                
+                <h3>6. Processamento de Sinais Digitais</h3>
+                <p>Filtros digitais em aplicativos de áudio, como equalizadores e redutores de ruído, usam funções contínuas para transformar sinais sonoros sem criar distorções perceptíveis.</p>
+                <div class="example-box">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDwhLS0gU2luYWwgb3JpZ2luYWwgLS0+CiAgICA8cGF0aCBkPSJNMTAsNjAgQzEwLDYwIDIwLDIwIDMwLDYwIEM0MCwxMDAgNTAsNjAgNjAsNjAgQzcwLDYwIDgwLDIwIDkwLDYwIEMxMDAsMTAwIDExMCw2MCAxMjAsNjAiIHN0cm9rZT0iI2ZmNzcwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSI0MCIgeT0iMTUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzMzMyI+U2luYWwgT3JpZ2luYWw8L3RleHQ+CiAgICAKICAgIDwhLS0gU2V0YSAtLT4KICAgIDxwYXRoIGQ9Ik0xMzAsNjAgTDE3MCw2MCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+CiAgICA8dGV4dCB4PSIxMzUiIHk9IjUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMzMzMiPkZpbHRyYWdlbTwvdGV4dD4KICAgIAogICAgPCEtLSBTaW5hbCBmaWx0cmFkbyAtLT4KICAgIDxwYXRoIGQ9Ik0xODAsNjAgQzE4MCw2MCAxOTAsNDAgMjAwLDYwIEMyMTAsODAgMjIwLDYwIDIzMCw2MCBDMjQwLDYwIDI1MCw0MCAyNjAsNjAgQzI3MCw4MCAyODAsNjAgMjkwLDYwIiBzdHJva2U9IiMyOGE3NDUiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHRleHQgeD0iMjEwIiB5PSIxNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjMzMzIj5TaW5hbCBGaWx0cmFkbzwvdGV4dD4KICAgIAogICAgPCEtLSBNYXJjYWRvciBkZSBzZXRhIC0tPgogICAgPGRlZnM+CiAgICAgICAgPG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iOSIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIiBtYXJrZXJVbml0cz0ic3Ryb2tlV2lkdGgiPgogICAgICAgICAgICA8cGF0aCBkPSJNMCwwIEw5LDMgTDAsMTAiIGZpbGw9IiMzMzMiLz4KICAgICAgICA8L21hcmtlcj4KICAgIDwvZGVmcz4KPC9zdmc+" alt="Processamento de sinal" class="inline-graph">
+                    <p>Filtros digitais transformam sinais ruidosos em sinais mais suaves e limpos usando funções contínuas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="interativo" class="container section">
+            <h2>Área Interativa</h2>
+            <div class="content-box">
+                <h3>Explore os Conceitos</h3>
+                <p>Use esta área para explorar os conceitos de limites e continuidade de forma interativa.</p>
+                
+                <div class="interactive-element">
+                    <h4>Calculadora de Limites</h4>
+                    <div class="calculator">
+                        <div class="input-group">
+                            <label for="function-input">Função f(x):</label>
+                            <input type="text" id="function-input" placeholder="Ex: x^2 - 1" value="x^2 - 1">
+                        </div>
+                        <div class="input-group">
+                            <label for="point-input">Ponto a:</label>
+                            <input type="number" id="point-input" placeholder="Ex: 2" value="1" step="0.1">
+                        </div>
+                        <button id="calculate-btn">Calcular Limite</button>
+                        <div id="limit-result" class="result">
+                            <p>Resultado: <span id="limit-value">Aguardando cálculo...</span></p>
+                        </div>
+                    </div>
+                    <div id="custom-function-graph" class="graph-container"></div>
+                </div>
+                
+                <div class="quiz-container">
+                    <h3>Quiz: Limites e Continuidade em TI</h3>
+                    
+                    <h4>Perguntas Simples</h4>
+                    <div class="quiz-question">
+                        <p>1. A velocidade de download de um jogo começa em 5 MB/s e aumenta com o tempo, mas nunca ultrapassa 200 MB/s. Esse valor de 200 MB/s que a velocidade se aproxima é um exemplo de qual conceito matemático?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="a"> A) Limite</label>
+                            <label><input type="radio" name="q1" value="b"> B) Continuidade</label>
+                            <label><input type="radio" name="q1" value="c"> C) Derivada</label>
+                            <label><input type="radio" name="q1" value="d"> D) Integral</label>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-q1"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <p>2. Uma barra de progresso de um software (tipo quando ele está instalando algo) mostra uma animação que não pode ter 'saltos' ou 'travamentos'. Na matemática, qual conceito garante que essa animação seja suave e sem 'buracos'?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q2" value="a"> A) Limite</label>
+                            <label><input type="radio" name="q2" value="b"> B) Continuidade</label>
+                            <label><input type="radio" name="q2" value="c"> C) Derivada</label>
+                            <label><input type="radio" name="q2" value="d"> D) Função</label>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-q2"></div>
+                    </div>
+                    
+                    <h4>Perguntas Mais Aprofundadas</h4>
+                    <div class="quiz-question">
+                        <p>3. A eficiência de um servidor em processar dados é modelada pela função f(x)=3x+2/150x. Qual seria o limite de eficiência desse servidor em um cenário de carga extrema, onde 'x' (a carga) é um valor muito, muito grande?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q3" value="a"> A) 150</label>
+                            <label><input type="radio" name="q3" value="b"> B) 2</label>
+                            <label><input type="radio" name="q3" value="c"> C) 50</label>
+                            <label><input type="radio" name="q3" value="d"> D) Infinita</label>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-q3"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <p>4. A leitura de dados de um sensor de temperatura de um servidor precisa ser contínua para evitar picos inesperados. O que aconteceria se a função que descreve a leitura não fosse contínua em um determinado momento, por exemplo, em t=5 segundos?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q4" value="a"> A) A leitura se tornaria mais lenta.</label>
+                            <label><input type="radio" name="q4" value="b"> B) A leitura pularia de um valor para outro instantaneamente.</label>
+                            <label><input type="radio" name="q4" value="c"> C) A temperatura se aproximaria lentamente de um valor máximo.</label>
+                            <label><input type="radio" name="q4" value="d"> D) O servidor desligaria automaticamente.</label>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-q4"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <p>5. Um programa tem um bug que o faz travar quando o número de usuários ativos é exatamente 100. Nos testes, ele funciona perfeitamente com 99 ou 101 usuários. Na matemática, a função desse programa tem um ponto de descontinuidade removível em 100. O que o limite da função nesse ponto sugere sobre esse bug?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q5" value="a"> A) O bug não tem solução.</label>
+                            <label><input type="radio" name="q5" value="b"> B) O programa está programado para ter um erro.</label>
+                            <label><input type="radio" name="q5" value="c"> C) O valor que o programa deveria ter em 100 pode ser determinado.</label>
+                            <label><input type="radio" name="q5" value="d"> D) O erro do programa é infinito.</label>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-q5"></div>
+                    </div>
+                    
+                    <button id="check-quiz" class="btn">Verificar Respostas</button>
+                    <p id="quiz-result" style="display: none; margin-top: 15px; font-weight: bold;"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Desenvolvido para apresentação do curso de Análise e Desenvolvimento de Sistemas</p>
+            <p>&copy; 2023 - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
