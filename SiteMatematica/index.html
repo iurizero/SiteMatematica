@@ -125,8 +125,9 @@
                     <div id="continuity-graph" class="graph-container"></div>
                     <div class="graph-controls">
                         <button id="continuity-function-1" class="btn active">Função Contínua</button>
-                        <button id="continuity-function-2" class="btn">Descontinuidade Removível</button>
-                        <button id="continuity-function-3" class="btn">Descontinuidade Essencial</button>
+<button id="continuity-function-2" class="btn">Descontinuidade Removível</button>
+<button id="continuity-function-3" class="btn">Descontinuidade Essencial</button>
+<button id="continuity-function-4" class="btn">Descontinuidade de Salto</button>
                     </div>
                     <p class="graph-description">Este gráfico interativo demonstra diferentes tipos de continuidade e descontinuidade. Experimente os botões para visualizar cada caso e entender como as funções se comportam.</p>
                 </div>
@@ -243,7 +244,6 @@ function mergeSort(arr) {  // O(n log n) - mais rápido para grandes conjuntos
                 <div class="quiz-container">
                     <h3>Quiz: Limites e Continuidade em TI</h3>
                     
-                    <h4>Perguntas Simples</h4>
                     <div class="quiz-question">
                         <p>1. A velocidade de download de um jogo começa em 5 MB/s e aumenta com o tempo, mas nunca ultrapassa 200 MB/s. Esse valor de 200 MB/s que a velocidade se aproxima é um exemplo de qual conceito matemático?</p>
                         <div class="quiz-options">
@@ -256,7 +256,7 @@ function mergeSort(arr) {  // O(n log n) - mais rápido para grandes conjuntos
                     </div>
                     
                     <div class="quiz-question">
-                        <p>2. Uma barra de progresso de um software (tipo quando ele está instalando algo) mostra uma animação que não pode ter 'saltos' ou 'travamentos'. Na matemática, qual conceito garante que essa animação seja suave e sem 'buracos'?</p>
+                        <p>2. Uma barra de progresso de um software (quando ele está instalando algo) mostra uma animação que não pode ter 'saltos' ou 'travamentos'. Na matemática, qual conceito garante que essa animação seja suave e sem 'buracos'?</p>
                         <div class="quiz-options">
                             <label><input type="radio" name="q2" value="a"> A) Limite</label>
                             <label><input type="radio" name="q2" value="b"> B) Continuidade</label>
@@ -266,36 +266,35 @@ function mergeSort(arr) {  // O(n log n) - mais rápido para grandes conjuntos
                         <div class="quiz-feedback" id="feedback-q2"></div>
                     </div>
                     
-                    <h4>Perguntas Mais Aprofundadas</h4>
                     <div class="quiz-question">
-                        <p>3. A eficiência de um servidor em processar dados é modelada pela função f(x)=3x+2/150x. Qual seria o limite de eficiência desse servidor em um cenário de carga extrema, onde 'x' (a carga) é um valor muito, muito grande?</p>
+                        <p>3. Se uma função que representa o uso de memória de um programa tem limite em 1024 MB quando o tempo aumenta, o que isso significa?</p>
                         <div class="quiz-options">
-                            <label><input type="radio" name="q3" value="a"> A) 150</label>
-                            <label><input type="radio" name="q3" value="b"> B) 2</label>
-                            <label><input type="radio" name="q3" value="c"> C) 50</label>
-                            <label><input type="radio" name="q3" value="d"> D) Infinita</label>
+                            <label><input type="radio" name="q3" value="a"> A) A memória vai se estabilizar em 1024 MB.</label>
+                            <label><input type="radio" name="q3" value="b"> B) A memória vai cresce sem parar.</label>
+                            <label><input type="radio" name="q3" value="c"> C) A memória nunca chega a 1024 MB.</label>
+                            <label><input type="radio" name="q3" value="d"> D) Não é possível interpretar o limite nesse caso.</label>
                         </div>
                         <div class="quiz-feedback" id="feedback-q3"></div>
                     </div>
                     
                     <div class="quiz-question">
-                        <p>4. A leitura de dados de um sensor de temperatura de um servidor precisa ser contínua para evitar picos inesperados. O que aconteceria se a função que descreve a leitura não fosse contínua em um determinado momento, por exemplo, em t=5 segundos?</p>
+                        <p>4. Qual exemplo abaixo pode ser representado como uma função contínua?</p>
                         <div class="quiz-options">
-                            <label><input type="radio" name="q4" value="a"> A) A leitura se tornaria mais lenta.</label>
-                            <label><input type="radio" name="q4" value="b"> B) A leitura pularia de um valor para outro instantaneamente.</label>
-                            <label><input type="radio" name="q4" value="c"> C) A temperatura se aproximaria lentamente de um valor máximo.</label>
-                            <label><input type="radio" name="q4" value="d"> D) O servidor desligaria automaticamente.</label>
+                            <label><input type="radio" name="q4" value="a"> A) Número de cliques em um botão por segundo.</label>
+                            <label><input type="radio" name="q4" value="b"> B) Crescimento da temperatura de um processador ao longo do tempo.</label>
+                            <label><input type="radio" name="q4" value="c"> C) Número de acessos simultâneos a um site  .</label>
+                            <label><input type="radio" name="q4" value="d"> D) Quantidade de arquivos salvos em um diretório.</label>
                         </div>
                         <div class="quiz-feedback" id="feedback-q4"></div>
                     </div>
                     
                     <div class="quiz-question">
-                        <p>5. Um programa tem um bug que o faz travar quando o número de usuários ativos é exatamente 100. Nos testes, ele funciona perfeitamente com 99 ou 101 usuários. Na matemática, a função desse programa tem um ponto de descontinuidade removível em 100. O que o limite da função nesse ponto sugere sobre esse bug?</p>
+                        <p>5. Um servidor de banco de dados responde às requisições de forma estável. Ao medir o tempo de resposta, percebe-se que, conforme o número de usuários se aproxima de 200, o tempo de resposta se aproxima de 2 segundos, sem oscilações bruscas. O que isso indica em termos de limite?</p>
                         <div class="quiz-options">
-                            <label><input type="radio" name="q5" value="a"> A) O bug não tem solução.</label>
-                            <label><input type="radio" name="q5" value="b"> B) O programa está programado para ter um erro.</label>
-                            <label><input type="radio" name="q5" value="c"> C) O valor que o programa deveria ter em 100 pode ser determinado.</label>
-                            <label><input type="radio" name="q5" value="d"> D) O erro do programa é infinito.</label>
+                            <label><input type="radio" name="q5" value="a"> A) O servidor só funciona exatamente com 200 usuários.</label>
+                            <label><input type="radio" name="q5" value="b"> B) O limite não existe porque os valores mudam com os usuários.</label>
+                            <label><input type="radio" name="q5" value="c"> C) O limite do tempo de resposta existe e é 2 segundos.</label>
+                            <label><input type="radio" name="q5" value="d"> D) O gráfico do tempo de resposta tem uma descontinuidade em 200.</label>
                         </div>
                         <div class="quiz-feedback" id="feedback-q5"></div>
                     </div>

@@ -59,7 +59,13 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.classList.remove('active');
         });
         this.classList.add('active');
-        initContinuityGraph('1');
+        // Obter a posição atual do ponto, se existir
+        let currentPosition = 2;
+        const slider = document.getElementById('continuity-point-slider');
+        if (slider) {
+            currentPosition = parseFloat(slider.value);
+        }
+        initContinuityGraph('1', currentPosition);
     });
     
     document.getElementById('continuity-function-2')?.addEventListener('click', function() {
@@ -67,7 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.classList.remove('active');
         });
         this.classList.add('active');
-        initContinuityGraph('2');
+        // Obter a posição atual do ponto, se existir
+        let currentPosition = 2;
+        const slider = document.getElementById('continuity-point-slider');
+        if (slider) {
+            currentPosition = parseFloat(slider.value);
+        }
+        initContinuityGraph('2', currentPosition);
     });
     
     document.getElementById('continuity-function-3')?.addEventListener('click', function() {
@@ -75,18 +87,87 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.classList.remove('active');
         });
         this.classList.add('active');
-        initContinuityGraph('3');
+        // Obter a posição atual do ponto, se existir
+        let currentPosition = 2;
+        const slider = document.getElementById('continuity-point-slider');
+        if (slider) {
+            currentPosition = parseFloat(slider.value);
+        }
+        initContinuityGraph('3', currentPosition);
+    });
+    
+    document.getElementById('continuity-function-4')?.addEventListener('click', function() {
+        document.querySelectorAll('#continuity-graph + .graph-controls .btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        this.classList.add('active');
+        // Obter a posição atual do ponto, se existir
+        let currentPosition = 2;
+        const slider = document.getElementById('continuity-point-slider');
+        if (slider) {
+            currentPosition = parseFloat(slider.value);
+        }
+        initContinuityGraph('4', currentPosition);
     });
 });
 
+// Variável global para armazenar o tipo de função atual do gráfico de limites
+let currentLimitFunctionType = '1';
+
 // Gráfico de Limites
-function initLimitGraph(functionType = '1') {
+function initLimitGraph(functionType = '1', pointPosition = 1) {
     const limitGraph = document.getElementById('limit-graph');
     if (!limitGraph) return;
+    
+    // Atualizar o tipo de função atual
+    if (functionType !== undefined) {
+        currentLimitFunctionType = functionType;
+    }
     
     // Gerar dados para o gráfico
     const x = [];
     const y = [];
+    
+    // Ponto crítico padrão para cada função
+    let criticalPoint = 1; // Padrão para função 1
+    if (currentLimitFunctionType === '2' || currentLimitFunctionType === '3') criticalPoint = 0;
+    
+    // Usar o ponto móvel se fornecido, caso contrário usar o ponto crítico padrão
+    const movingPoint = pointPosition !== undefined ? pointPosition : criticalPoint;
+    
+    // Atualizar o slider existente ou criar um novo
+    let slider = document.getElementById('limit-point-slider');
+    let valueDisplay = document.getElementById('limit-point-value');
+    
+    if (!slider) {
+        const sliderContainer = document.createElement('div');
+        sliderContainer.className = 'slider-container';
+        sliderContainer.innerHTML = `
+            <label for="limit-point-slider">Posição do ponto: <span id="limit-point-value">${movingPoint.toFixed(1)}</span></label>
+            <input type="range" id="limit-point-slider" min="-4.9" max="4.9" step="0.1" value="${movingPoint}">
+        `;
+        limitGraph.parentNode.insertBefore(sliderContainer, limitGraph);
+        
+        // Adicionar evento ao slider
+        slider = document.getElementById('limit-point-slider');
+        valueDisplay = document.getElementById('limit-point-value');
+        
+        slider.addEventListener('input', function(e) {
+            const newPosition = parseFloat(e.target.value);
+            valueDisplay.textContent = newPosition.toFixed(1);
+            
+            // Usar setTimeout para evitar recursão infinita
+            setTimeout(() => {
+                initLimitGraph(currentLimitFunctionType, newPosition);
+            }, 10);
+        });
+    } else {
+        // Atualizar o valor do slider existente se necessário
+        if (Math.abs(parseFloat(slider.value) - movingPoint) > 0.01) {
+            slider.value = movingPoint;
+            valueDisplay.textContent = movingPoint.toFixed(1);
+        }
+    }
     
     // Gerar pontos para x
     for (let i = -5; i <= 5; i += 0.1) {
@@ -127,22 +208,35 @@ function initLimitGraph(functionType = '1') {
     
     // Adicionar ponto especial para o limite
     let limitPoint = {
-        x: [1],
-        y: [2], // Limite de (x² - 1)/(x - 1) quando x -> 1 é 2
+        x: [movingPoint],
+        y: [2], // Valor padrão
         mode: 'markers',
         marker: {
             size: 10,
             color: 'red'
         },
-        name: 'Limite'
+        name: 'Ponto Móvel'
     };
     
-    if (functionType === '2') {
-        limitPoint.x = [0];
-        limitPoint.y = [1]; // Limite de sin(x)/x quando x -> 0 é 1
+    // Calcular o valor y para o ponto móvel
+    if (functionType === '1') {
+        if (Math.abs(movingPoint - 1) < 0.01) {
+            limitPoint.y = [2]; // Limite quando x -> 1
+        } else {
+            limitPoint.y = [(movingPoint*movingPoint - 1)/(movingPoint - 1)];
+        }
+    } else if (functionType === '2') {
+        if (Math.abs(movingPoint) < 0.01) {
+            limitPoint.y = [1]; // Limite de sin(x)/x quando x -> 0 é 1
+        } else {
+            limitPoint.y = [Math.sin(movingPoint)/movingPoint];
+        }
     } else if (functionType === '3') {
-        limitPoint.x = [0];
-        limitPoint.y = [0]; // Limite de (1 - cos(x))/x quando x -> 0 é 0
+        if (Math.abs(movingPoint) < 0.01) {
+            limitPoint.y = [0]; // Limite de (1 - cos(x))/x quando x -> 0 é 0
+        } else {
+            limitPoint.y = [(1 - Math.cos(movingPoint))/movingPoint];
+        }
     }
     
     // Criar o gráfico
@@ -155,19 +249,24 @@ function initLimitGraph(functionType = '1') {
             color: 'blue',
             width: 2
         }
-    }, limitPoint];
+    }];
+    
+    // Adicionar o ponto móvel aos dados
+    data.push(limitPoint);
     
     const layout = {
         title: 'Visualização de Limites',
         xaxis: {
             title: 'x',
             zeroline: true,
-            showgrid: true
+            showgrid: true,
+            range: [-5, 5]
         },
         yaxis: {
             title: 'f(x)',
             zeroline: true,
-            showgrid: true
+            showgrid: true,
+            range: [-5, 5]
         },
         showlegend: true,
         legend: {
@@ -179,10 +278,52 @@ function initLimitGraph(functionType = '1') {
     Plotly.newPlot(limitGraph, data, layout);
 }
 
+// Variável global para armazenar o tipo de função atual do gráfico de continuidade
+let currentContinuityFunctionType = '1';
+
 // Gráfico de Continuidade
-function initContinuityGraph(exampleType = '1') {
+function initContinuityGraph(exampleType = '1', pointPosition = 2) {
     const continuityGraph = document.getElementById('continuity-graph');
     if (!continuityGraph) return;
+    
+    // Atualizar o tipo de função atual
+    if (exampleType !== undefined) {
+        currentContinuityFunctionType = exampleType;
+    }
+    
+    // Atualizar o slider existente ou criar um novo
+    let slider = document.getElementById('continuity-point-slider');
+    let valueDisplay = document.getElementById('continuity-point-value');
+    
+    if (!slider) {
+        const sliderContainer = document.createElement('div');
+        sliderContainer.className = 'slider-container';
+        sliderContainer.innerHTML = `
+            <label for="continuity-point-slider">Posição do ponto: <span id="continuity-point-value">${pointPosition.toFixed(1)}</span></label>
+            <input type="range" id="continuity-point-slider" min="-4.9" max="4.9" step="0.1" value="${pointPosition}">
+        `;
+        continuityGraph.parentNode.insertBefore(sliderContainer, continuityGraph);
+        
+        // Adicionar evento ao slider
+        slider = document.getElementById('continuity-point-slider');
+        valueDisplay = document.getElementById('continuity-point-value');
+        
+        slider.addEventListener('input', function(e) {
+            const newPosition = parseFloat(e.target.value);
+            valueDisplay.textContent = newPosition.toFixed(1);
+            
+            // Usar setTimeout para evitar recursão infinita
+            setTimeout(() => {
+                initContinuityGraph(currentContinuityFunctionType, newPosition);
+            }, 10);
+        });
+    } else {
+        // Atualizar o valor do slider existente se necessário
+        if (Math.abs(parseFloat(slider.value) - pointPosition) > 0.01) {
+            slider.value = pointPosition;
+            valueDisplay.textContent = pointPosition.toFixed(1);
+        }
+    }
     
     // Gerar dados para o gráfico
     const x = [];
@@ -218,19 +359,66 @@ function initContinuityGraph(exampleType = '1') {
         y.push(yValue);
     }
     
-    // Adicionar ponto especial para a descontinuidade removível
-    let specialPoint = null;
-    if (exampleType === '2') {
-        specialPoint = {
-            x: [2],
-            y: [4], // Valor correto no ponto de descontinuidade
-            mode: 'markers',
-            marker: {
-                size: 10,
-                color: 'red'
-            },
-            name: 'Ponto Removível'
-        };
+    // Adicionar ponto móvel para todos os tipos de função
+    let specialPoint = {
+        x: [pointPosition],
+        y: [0], // Valor padrão que será atualizado abaixo
+        mode: 'markers',
+        marker: {
+            size: 10,
+            color: 'red'
+        },
+        name: 'Ponto Móvel'
+    };
+    
+    // Calcular o valor y para o ponto móvel com base no tipo de função
+    switch(exampleType) {
+        case '1': // Função contínua: f(x) = x²
+            specialPoint.y = [pointPosition*pointPosition];
+            specialPoint.name = 'Ponto Móvel';
+            break;
+            
+        case '2': // Função com descontinuidade removível
+            if (Math.abs(pointPosition - 2) < 0.01) {
+                specialPoint.y = [4]; // Valor correto no ponto de descontinuidade
+                specialPoint.name = 'Ponto Removível';
+            } else {
+                specialPoint.y = [(pointPosition*pointPosition - 4)/(pointPosition - 2)];
+                specialPoint.name = 'Ponto Móvel';
+            }
+            break;
+            
+        case '3': // Função com descontinuidade essencial: f(x) = 1/x
+            if (Math.abs(pointPosition) < 0.01) {
+                // Não mostrar o ponto no zero (descontinuidade essencial)
+                specialPoint = null;
+            } else {
+                specialPoint.y = [1/pointPosition];
+                specialPoint.name = 'Ponto Móvel';
+            }
+            break;
+            
+        case '4': // Função com descontinuidade de salto: f(x) = floor(x)
+            // Limpar os dados anteriores
+            x.length = 0;
+            y.length = 0;
+            
+            // Gerar novos pontos para a função degrau
+            for (let i = -5; i <= 5; i += 0.1) {
+                x.push(i);
+                y.push(Math.floor(i));
+            }
+            
+            // Configurar o ponto móvel
+            specialPoint.y = [Math.floor(pointPosition)];
+            
+            // Se estiver exatamente em um número inteiro, marcar como ponto de descontinuidade
+            if (Math.abs(pointPosition - Math.floor(pointPosition)) < 0.01) {
+                specialPoint.name = 'Ponto de Descontinuidade';
+            } else {
+                specialPoint.name = 'Ponto Móvel';
+            }
+            break;
     }
     
     // Criar o gráfico
@@ -588,7 +776,8 @@ function updateCustomGraph(funcStr, point) {
     for (let i = point - 5; i < point - 0.1; i += step) {
         try {
             const yValue = func(i);
-            if (!isNaN(yValue) && isFinite(yValue) && Math.abs(yValue) < 100) {
+            // Aumentar o limite de valores para o eixo Y
+            if (!isNaN(yValue) && isFinite(yValue) && Math.abs(yValue) < 10) {
                 x.push(i);
                 y.push(yValue);
             }
@@ -604,7 +793,8 @@ function updateCustomGraph(funcStr, point) {
         
         try {
             const yValue = func(i);
-            if (!isNaN(yValue) && isFinite(yValue) && Math.abs(yValue) < 100) {
+            // Aumentar o limite de valores para o eixo Y
+            if (!isNaN(yValue) && isFinite(yValue) && Math.abs(yValue) < 1000) {
                 x.push(i);
                 y.push(yValue);
             }
@@ -617,7 +807,8 @@ function updateCustomGraph(funcStr, point) {
     for (let i = point + 0.1; i <= point + 5; i += step) {
         try {
             const yValue = func(i);
-            if (!isNaN(yValue) && isFinite(yValue) && Math.abs(yValue) < 100) {
+            // Aumentar o limite de valores para o eixo Y
+            if (!isNaN(yValue) && isFinite(yValue) && Math.abs(yValue) < 1000) {
                 x.push(i);
                 y.push(yValue);
             }
@@ -681,23 +872,32 @@ function updateCustomGraph(funcStr, point) {
     // Adicionar linha vertical no ponto a
     const layout = {
         title: 'Gráfico da Função',
+        // Definir o gráfico como um quadrado perfeito
+        width: 900,
+        height: 900,
         xaxis: {
             title: 'x',
             zeroline: true,
-            showgrid: true
+            showgrid: true,
+            // Definir o mesmo intervalo para o eixo X
+            range: [-5, 5]
         },
         yaxis: {
             title: 'f(x)',
             zeroline: true,
             showgrid: true,
-            autorange: true
+            // Definir o mesmo intervalo para o eixo Y
+            range: [-5, 5],
+            // Garantir que a escala seja igual à do eixo X
+            scaleanchor: 'x',
+            scaleratio: 1
         },
         shapes: [{
             type: 'line',
             x0: point,
-            y0: -10,
+            y0: -5,
             x1: point,
-            y1: 10,
+            y1: 5,
             line: {
                 color: 'red',
                 width: 2,
@@ -734,126 +934,122 @@ function createFunction(funcStr) {
 function setupCalculator() {
     const calculateBtn = document.getElementById('calculate-btn');
     if (!calculateBtn) return;
-    
-    calculateBtn.addEventListener('click', function() {
-        const funcStr = document.getElementById('function-input').value;
+
+    calculateBtn.addEventListener('click', function () {
+        const funcInput = document.getElementById('function-input').value;
         const point = parseFloat(document.getElementById('point-input').value);
         const resultElement = document.getElementById('limit-value');
-        
-        // Atualizar o gráfico
-        updateCustomGraph(funcStr, point);
-        
-        // Calcular o limite (aproximação)
+
+        if (!funcInput || isNaN(point)) {
+            resultElement.textContent = "Entrada inválida";
+            return;
+        }
+
+        // Normalizar a função: remover espaços e minúsculas
+        const funcStr = funcInput.replace(/\s+/g, '').toLowerCase();
+
+        // Atualizar gráfico (se existir)
+        if (typeof updateCustomGraph === 'function') {
+            updateCustomGraph(funcStr, point);
+        }
+
+        // Criar função segura
+        let func;
         try {
-            // Verificar casos especiais comuns
-            if (funcStr.includes('x^2 - 1') && funcStr.includes('x - 1') && point === 1) {
+            func = createFunction(funcStr);
+        } catch (e) {
+            resultElement.textContent = "Erro: função inválida";
+            return;
+        }
+
+        try {
+            // Casos especiais clássicos
+            if ((funcStr.includes('x^2-1') && funcStr.includes('x-1') && point === 1)) {
                 resultElement.textContent = '2';
                 return;
             }
-            if (funcStr.includes('sin(x)') && funcStr.includes('/x') && point === 0) {
+            if ((funcStr.includes('sin(x)/x') || funcStr.includes('sinx/x')) && point === 0) {
                 resultElement.textContent = '1';
                 return;
             }
-            if (funcStr.includes('1 - cos(x)') && funcStr.includes('/x') && point === 0) {
+            if ((funcStr.includes('(1-cos(x))/x') || funcStr.includes('1-cosx/x')) && point === 0) {
                 resultElement.textContent = '0';
                 return;
             }
-            
-            const func = createFunction(funcStr);
-            
-            // Tentar calcular o valor diretamente no ponto
-            try {
-                const directValue = func(point);
-                if (!isNaN(directValue) && isFinite(directValue)) {
-                    resultElement.textContent = directValue.toFixed(4);
-                    return;
-                }
-            } catch (e) {
-                // Continuar com o cálculo do limite
+
+            // Tentar calcular valor direto
+            const directValue = func(point);
+            if (!isNaN(directValue) && isFinite(directValue)) {
+                resultElement.textContent = directValue.toFixed(4);
+                return;
             }
-            
-            // Aproximar o limite pela esquerda e pela direita
+
+            // Aproximação lateral
             const epsilons = [0.0001, 0.001, 0.01, 0.1];
-            let foundValidLimits = false;
-            let leftLimit, rightLimit;
-            
-            for (let i = 0; i < epsilons.length; i++) {
+            let leftLimit, rightLimit, found = false;
+
+            for (let eps of epsilons) {
                 try {
-                    leftLimit = func(point - epsilons[i]);
-                    rightLimit = func(point + epsilons[i]);
-                    
-                    // Se ambos os limites são números válidos, use-os
-                    if (!isNaN(leftLimit) && isFinite(leftLimit) && 
-                        !isNaN(rightLimit) && isFinite(rightLimit)) {
-                        foundValidLimits = true;
+                    leftLimit = func(point - eps);
+                    rightLimit = func(point + eps);
+
+                    if (isFinite(leftLimit) && isFinite(rightLimit)) {
+                        found = true;
                         break;
                     }
                 } catch (err) {
-                    // Continuar tentando com epsilon maior
-                    if (i === epsilons.length - 1) {
-                        throw err; // Propagar o erro se todas as tentativas falharem
-                    }
+                    continue;
                 }
             }
-            
-            if (foundValidLimits) {
-                // Usar uma tolerância relativa para valores grandes
-                const tolerance = Math.max(0.1, Math.abs(leftLimit) * 0.01);
-                
-                if (Math.abs(leftLimit - rightLimit) < tolerance) {
-                    // Calcular a média dos limites laterais para maior precisão
-                    const limitValue = (leftLimit + rightLimit) / 2;
-                    resultElement.textContent = limitValue.toFixed(4);
-                } else {
-                    // Verificar se os limites laterais são infinitos com o mesmo sinal
-                    if ((leftLimit > 1e10 && rightLimit > 1e10) || 
-                        (leftLimit < -1e10 && rightLimit < -1e10)) {
-                        const sinal = leftLimit > 0 ? '+' : '-';
-                        resultElement.textContent = `${sinal}∞`;
-                    } else {
-                        resultElement.textContent = 'Não existe (limites laterais diferentes)';
-                        console.log(`Limite esquerdo: ${leftLimit}, Limite direito: ${rightLimit}`);
-                    }
-                }
+
+            if (!found) {
+                resultElement.textContent = "Não foi possível calcular limite";
+                return;
+            }
+
+            const tolerance = Math.max(0.0001, Math.abs(leftLimit) * 0.001);
+
+            if (Math.abs(leftLimit - rightLimit) < tolerance) {
+                const limitValue = (leftLimit + rightLimit) / 2;
+                resultElement.textContent = limitValue.toFixed(4);
             } else {
-                throw new Error("Não foi possível calcular limites válidos");
+                // Verificar infinitos
+                if ((Math.abs(leftLimit) > 1e10 && Math.abs(rightLimit) > 1e10)) {
+                    const sinal = leftLimit > 0 ? '+' : '-';
+                    resultElement.textContent = `${sinal}∞`;
+                } else {
+                    resultElement.textContent = "Não existe (limites laterais diferentes)";
+                    console.log(`Limite esquerdo: ${leftLimit}, Limite direito: ${rightLimit}`);
+                }
             }
         } catch (e) {
-            console.error("Erro no cálculo do limite:", e);
-            
-            // Tentar calcular o limite em caso de indeterminação
-            try {
-                // Verificar casos especiais conhecidos
-                if (funcStr.includes('/') && point === 0) {
-                    // Formas comuns de indeterminação 0/0
-                    resultElement.textContent = 'Indeterminado (forma 0/0)';
-                } else if (funcStr.includes('x^2') || funcStr.includes('x * x')) {
-                    // Para funções polinomiais, o limite geralmente existe
-                    const func = createFunction(funcStr);
-                    try {
-                        // Tentar calcular o valor exato no ponto
-                        const exactValue = func(point);
-                        if (!isNaN(exactValue) && isFinite(exactValue)) {
-                            resultElement.textContent = exactValue.toFixed(4);
-                            return;
-                        }
-                    } catch (err) {
-                        // Ignorar erro e continuar
-                    }
-                    
-                    // Se não conseguir calcular no ponto exato, usar aproximação
-                    const epsilon = 0.001;
-                    const approxValue = (func(point - epsilon) + func(point + epsilon)) / 2;
-                    resultElement.textContent = approxValue.toFixed(4);
-                } else {
-                    resultElement.textContent = 'Erro ao calcular: função não definida no ponto';
-                }
-            } catch (e) {
-                resultElement.textContent = 'Erro ao calcular';
-            }
+            console.error(e);
+            resultElement.textContent = "Erro ao calcular limite";
         }
     });
 }
+
+// Função segura para criar funções a partir de string
+function createFunction(funcStr) {
+    // Substituir ^ por **
+    let expr = funcStr.replace(/\^/g, '**');
+
+    // Mapear funções matemáticas
+    expr = expr
+        .replace(/sin/g, 'Math.sin')
+        .replace(/cos/g, 'Math.cos')
+        .replace(/tan/g, 'Math.tan')
+        .replace(/sqrt/g, 'Math.sqrt')
+        .replace(/log/g, 'Math.log')
+        .replace(/abs/g, 'Math.abs')
+        .replace(/exp/g, 'Math.exp')
+        .replace(/pi/g, 'Math.PI')
+        .replace(/e/g, 'Math.E');
+
+    // Criar função JS segura
+    return new Function('x', `return ${expr};`);
+}
+
 
 // Configurar o quiz
 function setupQuiz() {

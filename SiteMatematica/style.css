@@ -132,11 +132,22 @@ nav ul li a:hover {
 
 .graph-container {
     width: 100%;
-    height: 400px;
-    margin: 1.5rem 0;
+    height: 500px;
+    margin: 2rem auto;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: white;
+    max-width: 800px; /* Limita a largura máxima */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo específico para o gráfico da calculadora de funções */
+#custom-function-graph {
+    width: 100%;
+    height: 1000px; /* Altura maior para o gráfico da calculadora */
+    aspect-ratio: 1/1; /* Garante que seja um quadrado perfeito */
+    margin: 2rem auto;
+    max-width: 1000px; /* Limita a largura máxima */
 }
 
 .graph-controls {
@@ -153,6 +164,26 @@ nav ul li a:hover {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+/* Estilo para os sliders de pontos móveis */
+.slider-container {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.slider-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.slider-container input[type="range"] {
+    width: 80%;
+    margin: 0 auto;
 }
 
 .graph-controls .btn:hover {
