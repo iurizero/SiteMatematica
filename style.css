@@ -59,10 +59,22 @@ header p {
 nav {
     background-color: var(--secondary-color);
     padding: 0.5rem 0;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     box-shadow: var(--shadow);
+    transition: transform 0.3s ease-in-out;
+}
+
+nav.hidden {
+    transform: translateY(-100%);
+}
+
+/* Compensar espaço do menu fixo */
+body {
+    padding-top: 60px;
 }
 
 nav ul {
@@ -291,6 +303,11 @@ nav ul li a:hover {
 
 /* Mobile (576px - 767px) */
 @media (min-width: 576px) and (max-width: 767px) {
+    /* Ajustar padding do body para menu mobile */
+    body {
+        padding-top: 120px; /* Mais espaço para menu mobile que pode ser maior */
+    }
+    
     header h1 {
         font-size: 1.8rem;
     }
@@ -549,6 +566,43 @@ nav ul li a:hover {
     margin-top: 1.5rem;
 }
 
+/* Estilos para o link do GitHub */
+.github-link {
+    margin-top: 2rem;
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    border: 2px solid #dee2e6;
+}
+
+.github-link p {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: #495057;
+    font-weight: 500;
+}
+
+.github-link a {
+    display: inline-block;
+    color: #0366d6;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    border: 2px solid #0366d6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.github-link a:hover {
+    background: #0366d6;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
 /* Responsividade para a seção de QR Code */
 @media (max-width: 768px) {
     .qrcode-container {
@@ -569,6 +623,11 @@ nav ul li a:hover {
 }
 
 @media (max-width: 576px) {
+    /* Ajustar padding do body para telas muito pequenas */
+    body {
+        padding-top: 140px; /* Ainda mais espaço para telas pequenas */
+    }
+    
     .qrcode-container {
         padding: 1rem;
     }

@@ -14,10 +14,68 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Configurar eventos
             setupQuiz();
-            setupCalculator();
+            setupCalculator();setupQuiz();
+            
+            // Inicializar funcionalidade de menu que desaparece no scroll
+            initScrollNavigation();
         } else {
             setTimeout(waitForPlotly, 100);
         }
+    }
+    
+    // Funcionalidade para ocultar/mostrar menu no scroll
+    function initScrollNavigation() {
+        let lastScrollTop = 0;
+        let scrollUpDistance = 0; // Distância acumulada rolando para cima
+        const nav = document.querySelector('nav');
+        const SCROLL_UP_THRESHOLD = 100; // Precisa rolar 100px para cima para mostrar menu
+        
+        if (!nav) return;
+        
+        // Throttle para melhor performance
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+        
+        const handleScroll = throttle(function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Se estiver no topo da página, sempre mostrar o menu
+            if (scrollTop <= 100) {
+                nav.classList.remove('hidden');
+                scrollUpDistance = 0;
+                lastScrollTop = scrollTop;
+                return;
+            }
+            
+            // Se rolando para baixo, ocultar menu e resetar contador
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                nav.classList.add('hidden');
+                scrollUpDistance = 0;
+            } 
+            // Se rolando para cima, acumular distância
+            else if (scrollTop < lastScrollTop) {
+                scrollUpDistance += lastScrollTop - scrollTop;
+                
+                // Só mostrar menu após rolar uma distância mínima para cima
+                if (scrollUpDistance >= SCROLL_UP_THRESHOLD) {
+                    nav.classList.remove('hidden');
+                }
+            }
+            
+            lastScrollTop = scrollTop;
+        }, 16); // ~60fps
+        
+        window.addEventListener('scroll', handleScroll);
     }
     
     waitForPlotly();
