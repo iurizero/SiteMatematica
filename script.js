@@ -119,6 +119,9 @@ function initLimitGraph(functionType = '1', pointPosition = 1) {
     const limitGraph = document.getElementById('limit-graph');
     if (!limitGraph) return;
     
+    // Verificar se é um dispositivo móvel
+    const isMobile = window.innerWidth <= 768;
+    
     // Atualizar o tipo de função atual
     if (functionType !== undefined) {
         currentLimitFunctionType = functionType;
@@ -272,7 +275,14 @@ function initLimitGraph(functionType = '1', pointPosition = 1) {
         legend: {
             x: 0,
             y: 1
-        }
+        },
+        margin: {
+            l: 40,
+            r: 30,
+            t: 50,
+            b: 40
+        },
+        autosize: true
     };
     
     Plotly.newPlot(limitGraph, data, layout);
@@ -850,8 +860,8 @@ function updateCustomGraph(funcStr, point) {
         mode: 'lines',
         name: 'f(x) = ' + funcStr,
         line: {
-            color: 'blue',
-            width: 2
+            color: '#007bff',
+            width: 3
         }
     }];
     
@@ -863,34 +873,46 @@ function updateCustomGraph(funcStr, point) {
             mode: 'markers',
             name: 'Limite',
             marker: {
-                size: 10,
-                color: 'red'
+                size: 8,
+                color: '#28a745',
+                line: {
+                    color: '#fff',
+                    width: 2
+                }
             }
         });
     }
     
     // Adicionar linha vertical no ponto a
     const layout = {
-        title: 'Gráfico da Função',
-        // Definir o gráfico como um quadrado perfeito
-        width: 900,
-        height: 900,
+        title: {
+            text: 'Gráfico da Função',
+            font: {
+                size: 16,
+                color: '#333'
+            }
+        },
+        // Layout responsivo
+        autosize: true,
+        margin: {
+            l: 50,
+            r: 50,
+            t: 60,
+            b: 50
+        },
         xaxis: {
             title: 'x',
             zeroline: true,
             showgrid: true,
-            // Definir o mesmo intervalo para o eixo X
+            gridcolor: '#e0e0e0',
             range: [-5, 5]
         },
         yaxis: {
             title: 'f(x)',
             zeroline: true,
             showgrid: true,
-            // Definir o mesmo intervalo para o eixo Y
-            range: [-5, 5],
-            // Garantir que a escala seja igual à do eixo X
-            scaleanchor: 'x',
-            scaleratio: 1
+            gridcolor: '#e0e0e0',
+            range: [-5, 5]
         },
         shapes: [{
             type: 'line',
@@ -899,19 +921,30 @@ function updateCustomGraph(funcStr, point) {
             x1: point,
             y1: 5,
             line: {
-                color: 'red',
+                color: '#dc3545',
                 width: 2,
                 dash: 'dash'
             }
         }],
         showlegend: true,
         legend: {
-            x: 0,
-            y: 1
-        }
+            x: 0.02,
+            y: 0.98,
+            bgcolor: 'rgba(255,255,255,0.8)',
+            bordercolor: '#ddd',
+            borderwidth: 1
+        },
+        plot_bgcolor: '#fafafa',
+        paper_bgcolor: 'white'
     };
     
-    Plotly.newPlot(customGraph, data, layout);
+    const config = {
+        responsive: true,
+        displayModeBar: false,
+        staticPlot: false
+    };
+    
+    Plotly.newPlot(customGraph, data, layout, config);
 }
 
 // Função para converter string em função JavaScript

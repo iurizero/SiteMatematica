@@ -15,43 +15,50 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: #f9f9f9;
+    overflow-x: hidden;
 }
 
 .container {
-    width: 90%;
+    width: 95%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 10px;
 }
 
 /* Cabeçalho */
 header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 2rem 0;
+    padding: 1.5rem 0;
     text-align: center;
     box-shadow: var(--shadow);
 }
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 0.5rem;
+    padding: 0 10px;
 }
 
 header p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     opacity: 0.9;
+    padding: 0 10px;
 }
 
 /* Navegação */
 nav {
     background-color: var(--secondary-color);
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -66,16 +73,18 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0 1rem;
+    margin: 0.3rem;
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
     font-weight: 500;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.7rem;
     border-radius: 4px;
     transition: background-color 0.3s;
+    font-size: 0.9rem;
+    display: block;
 }
 
 nav ul li a:hover {
@@ -84,15 +93,16 @@ nav ul li a:hover {
 
 /* Seções */
 .section {
-    padding: 3rem 0;
+    padding: 1.5rem 0;
 }
 
 .section h2 {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: var(--secondary-color);
     position: relative;
     padding-bottom: 0.5rem;
+    font-size: 1.6rem;
 }
 
 .section h2::after {
@@ -101,7 +111,7 @@ nav ul li a:hover {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
+    width: 80px;
     height: 3px;
     background-color: var(--primary-color);
 }
@@ -109,16 +119,22 @@ nav ul li a:hover {
 .content-box {
     background-color: white;
     border-radius: 8px;
-    padding: 2rem;
+    padding: 1.25rem;
     box-shadow: var(--shadow);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
 }
 
 .content-box h3 {
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     border-left: 4px solid var(--primary-color);
-    padding-left: 1rem;
+    padding-left: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.content-box p, .content-box li {
+    font-size: 0.95rem;
 }
 
 /* Elementos Interativos */
@@ -126,28 +142,41 @@ nav ul li a:hover {
     margin: 2rem 0;
     padding: 1.5rem;
     background-color: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.interactive-element h4 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .graph-container {
     width: 100%;
-    height: 500px;
-    margin: 2rem auto;
+    height: 300px;
+    margin: 1.5rem auto;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: white;
-    max-width: 800px; /* Limita a largura máxima */
+    max-width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilo específico para o gráfico da calculadora de funções */
 #custom-function-graph {
     width: 100%;
-    height: 1000px; /* Altura maior para o gráfico da calculadora */
-    aspect-ratio: 1/1; /* Garante que seja um quadrado perfeito */
-    margin: 2rem auto;
-    max-width: 1000px; /* Limita a largura máxima */
+    height: 400px;
+    margin: 1.5rem 0;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .graph-controls {
@@ -198,17 +227,238 @@ nav ul li a:hover {
 
 .graph-description {
     font-style: italic;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .example-box {
+        padding: 0.8rem;
+    }
+    
+    .code-example {
+        overflow-x: auto;
+    }
+    
+    .code-example pre {
+        font-size: 0.8rem;
+    }
+    
+    .inline-graph {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    html {
+        font-size: 14px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    header p {
+        font-size: 0.9rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 0.2rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .graph-controls {
+        flex-wrap: wrap;
+    }
+    
+    .graph-controls .btn {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        margin-bottom: 5px;
+    }
+    
+    /* Responsividade específica para telas muito pequenas */
+    #custom-function-graph {
+        width: 100%;
+        max-width: 100%;
+        height: 280px;
+        margin: 0.5rem 0;
+    }
+    
+    .interactive-element {
+        padding: 0.75rem;
+        margin: 1rem 0;
+    }
+    
+    .interactive-element h4 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .quiz-container {
+        margin-top: 1.5rem;
+        padding: 0.75rem;
+    }
+    
+    .quiz-container h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .calculator {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .input-group {
+        margin-bottom: 0.75rem;
+    }
+    
+    .input-group input {
+        padding: 0.5rem;
+        font-size: 16px;
+    }
+    
+    button {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+    
+    .formula {
+        overflow-x: auto;
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+    
+    .content-box {
+        padding: 1rem;
+    }
+    
+    .example-box {
+        padding: 0.8rem;
+    }
+    
+    .section h2 {
+        font-size: 1.4rem;
+    }
+    
+    .content-box h3 {
+        font-size: 1.2rem;
+    }
+    
+    .interactive-element {
+        padding: 0.8rem;
+    }
+    
+    .graph-container {
+        height: 250px;
+    }
+}
+
+.graph-description {
     color: #666;
     margin-top: 5px;
     text-align: center;
+    font-style: italic;
 }
 
 .example-box {
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 15px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+/* Estilos para a seção de QR Code */
+#qrcode-section {
+    background-color: var(--light-color);
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.qrcode-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.qrcode-container h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+}
+
+.qrcode-image {
+    margin: 2rem auto;
+    max-width: 300px;
+}
+
+.qrcode-image img {
+    width: 100%;
+    height: auto;
+    border: 5px solid var(--primary-color);
+    border-radius: 10px;
+}
+
+.qrcode-description {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-top: 1.5rem;
+}
+
+/* Responsividade para a seção de QR Code */
+@media (max-width: 768px) {
+    .qrcode-container {
+        padding: 1.5rem;
+    }
+    
+    .qrcode-container h2 {
+        font-size: 1.6rem;
+    }
+    
+    .qrcode-image {
+        max-width: 250px;
+    }
+    
+    .qrcode-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .qrcode-container {
+        padding: 1rem;
+    }
+    
+    .qrcode-container h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .qrcode-image {
+        max-width: 200px;
+        margin: 1rem auto;
+    }
+    
+    .qrcode-description {
+        font-size: 0.9rem;
+    }
 }
 
 .example-box h4 {
@@ -316,7 +566,22 @@ button:hover {
 
 /* Quiz */
 .quiz-container {
-    margin-top: 2rem;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e9ecef;
+    position: relative;
+    z-index: 2;
+}
+
+.quiz-container h3 {
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
 }
 
 .quiz-question {
@@ -396,6 +661,32 @@ footer p {
     
     .graph-container {
         height: 300px;
+    }
+    
+    /* Responsividade específica para o gráfico da calculadora */
+    #custom-function-graph {
+        width: 100%;
+        height: 350px;
+        margin: 1rem 0;
+        max-width: 100%;
+    }
+    
+    .interactive-element {
+        padding: 1rem;
+        margin: 1.5rem 0;
+    }
+    
+    .quiz-container {
+        margin-top: 2rem;
+        padding: 1rem;
+    }
+    
+    .calculator {
+        padding: 1rem;
+    }
+    
+    .input-group input {
+        font-size: 16px; /* Evita zoom no iOS */
     }
     
     .quiz-options {
