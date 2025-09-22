@@ -1,17 +1,26 @@
 // Esperar o DOM carregar completamente
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar todos os gráficos
-    initLimitGraph();
-    initContinuityGraph();
-    initAlgorithmComparison();
-    initActivationFunctions();
-    initGradientDescent();
-    initCompressionGraph();
-    initCustomFunctionGraph();
+    // Aguardar o carregamento do Plotly antes de inicializar os gráficos
+    function waitForPlotly() {
+        if (typeof Plotly !== 'undefined') {
+            // Inicializar todos os gráficos
+            initLimitGraph();
+            initContinuityGraph();
+            initAlgorithmComparison();
+            initActivationFunctions();
+            initGradientDescent();
+            initCompressionGraph();
+            initCustomFunctionGraph();
+            
+            // Configurar eventos
+            setupQuiz();
+            setupCalculator();
+        } else {
+            setTimeout(waitForPlotly, 100);
+        }
+    }
     
-    // Configurar eventos
-    setupQuiz();
-    setupCalculator();
+    waitForPlotly();
     
     // Configurar seletores de funções
     document.getElementById('function-select')?.addEventListener('change', function() {
@@ -285,7 +294,12 @@ function initLimitGraph(functionType = '1', pointPosition = 1) {
         autosize: true
     };
     
-    Plotly.newPlot(limitGraph, data, layout);
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+    
+    Plotly.newPlot(limitGraph, data, layout, config);
 }
 
 // Variável global para armazenar o tipo de função atual do gráfico de continuidade
@@ -466,7 +480,12 @@ function initContinuityGraph(exampleType = '1', pointPosition = 2) {
         }
     };
     
-    Plotly.newPlot(continuityGraph, data, layout);
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+    
+    Plotly.newPlot(continuityGraph, data, layout, config);
 }
 
 // Gráfico de Comparação de Algoritmos
@@ -529,7 +548,12 @@ function initAlgorithmComparison() {
         }
     };
     
-    Plotly.newPlot(algorithmGraph, data, layout);
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+    
+    Plotly.newPlot(algorithmGraph, data, layout, config);
 }
 
 // Gráfico de Funções de Ativação
@@ -597,7 +621,12 @@ function initActivationFunctions(functionType = 'sigmoid') {
         }
     };
     
-    Plotly.newPlot(activationGraph, data, layout);
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+    
+    Plotly.newPlot(activationGraph, data, layout, config);
 }
 
 // Gráfico de Gradient Descent
@@ -684,7 +713,12 @@ function initGradientDescent() {
         }
     };
     
-    Plotly.newPlot(gradientGraph, data, layout);
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+    
+    Plotly.newPlot(gradientGraph, data, layout, config);
 }
 
 // Gráfico de Compressão de Imagens e Vídeos
@@ -756,7 +790,12 @@ function initCompressionGraph() {
         }
     };
     
-    Plotly.newPlot(compressionGraph, data, layout);
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+    
+    Plotly.newPlot(compressionGraph, data, layout, config);
 }
 
 // Gráfico de Função Personalizada

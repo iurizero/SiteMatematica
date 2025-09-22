@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Limites e Continuidade</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.24.2/dist/plotly.min.js"></script>
 </head>
@@ -92,9 +92,9 @@
                 
                 <p>Formalmente, uma função \(f(x)\) é contínua em \(x = a\) se:</p>
                 <ol>
-                    <li>\(f(a)\) está definido (a função existe no ponto \(a\))</li>
-                    <li>\(\lim_{x \to a} f(x)\) existe (o limite existe)</li>
-                    <li>\(\lim_{x \to a} f(x) = f(a)\) (o limite é igual ao valor da função)</li>
+                    <li> \(f(a)\) está definido (a função existe no ponto \(a\))</li>
+                    <li> \(\lim_{x \to a} f(x)\) existe (o limite existe)</li>
+                    <li> \(\lim_{x \to a} f(x) = f(a)\) (o limite é igual ao valor da função)</li>
                 </ol>
                 
                 <h3>Exemplos Práticos de Continuidade</h3>
@@ -126,7 +126,7 @@
                     <div class="graph-controls">
                         <button id="continuity-function-1" class="btn active">Função Contínua</button>
 <button id="continuity-function-2" class="btn">Descontinuidade Removível</button>
-<button id="continuity-function-3" class="btn">Descontinuidade Essencial</button>
+<button id="continuity-function-3" class="btn">Descontinuidade Infinita</button>
 <button id="continuity-function-4" class="btn">Descontinuidade de Salto</button>
                     </div>
                     <p class="graph-description">Este gráfico interativo demonstra diferentes tipos de continuidade e descontinuidade. Experimente os botões para visualizar cada caso e entender como as funções se comportam.</p>
@@ -227,11 +227,11 @@ function mergeSort(arr) {  // O(n log n) - mais rápido para grandes conjuntos
                     <div class="calculator">
                         <div class="input-group">
                             <label for="function-input">Função f(x):</label>
-                            <input type="text" id="function-input" placeholder="Ex: x^2 - 1" value="x^2 - 1">
+                            <input type="text" id="function-input" placeholder="Ex: (x^2-1)/(x-1)" aria-label="Digite a função matemática">
                         </div>
                         <div class="input-group">
                             <label for="point-input">Ponto a:</label>
-                            <input type="number" id="point-input" placeholder="Ex: 2" value="1" step="0.1">
+                            <input type="number" id="point-input" step="0.1" placeholder="Ex: 1" aria-label="Digite o ponto onde calcular o limite">
                         </div>
                         <button id="calculate-btn">Calcular Limite</button>
                         <div id="limit-result" class="result">
@@ -299,7 +299,7 @@ function mergeSort(arr) {  // O(n log n) - mais rápido para grandes conjuntos
                         <div class="quiz-feedback" id="feedback-q5"></div>
                     </div>
                     
-                    <button id="check-quiz" class="btn">Verificar Respostas</button>
+                    <button id="check-quiz" class="btn" aria-label="Verificar todas as respostas do quiz">Verificar Respostas</button>
                     <p id="quiz-result" style="display: none; margin-top: 15px; font-weight: bold;"></p>
                 </div>
             </div>
@@ -323,6 +323,6 @@ function mergeSort(arr) {  // O(n log n) - mais rápido para grandes conjuntos
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
 </body>
 </html>
