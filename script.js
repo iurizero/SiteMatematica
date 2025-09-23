@@ -1045,20 +1045,7 @@ function updateCustomGraph(funcStr, point) {
 }
 
 // Função para converter string em função JavaScript
-function createFunction(funcStr) {
-    // Substituir operadores comuns
-    funcStr = funcStr.replace(/\^/g, '**');
-    
-    // Substituir funções matemáticas comuns
-    funcStr = funcStr.replace(/sin\(/g, 'Math.sin(');
-    funcStr = funcStr.replace(/cos\(/g, 'Math.cos(');
-    funcStr = funcStr.replace(/tan\(/g, 'Math.tan(');
-    funcStr = funcStr.replace(/sqrt\(/g, 'Math.sqrt(');
-    funcStr = funcStr.replace(/log\(/g, 'Math.log(');
-    
-    // Criar a função
-    return new Function('x', 'return ' + funcStr + ';');
-}
+
 
 // Configurar a calculadora de limites
 function setupCalculator() {
@@ -1087,8 +1074,12 @@ function setupCalculator() {
         let func;
         try {
             func = createFunction(funcStr);
+            console.log(`Função criada: ${funcStr}`);
         } catch (e) {
-            resultElement.textContent = "Erro: função inválida";
+            console.error('Erro ao criar função:', e);
+            console.log('String original:', funcInput);
+            console.log('String processada:', funcStr);
+            resultElement.textContent = `Erro: função inválida - ${e.message}`;
             return;
         }
 
@@ -1109,6 +1100,7 @@ function setupCalculator() {
 
             // Tentar calcular valor direto
             const directValue = func(point);
+            console.log(`Valor direto calculado: ${directValue} para ponto ${point}`);
             if (!isNaN(directValue) && isFinite(directValue)) {
                 resultElement.textContent = directValue.toFixed(4);
                 return;
@@ -1161,23 +1153,50 @@ function setupCalculator() {
 
 // Função segura para criar funções a partir de string
 function createFunction(funcStr) {
-    // Substituir ^ por **
-    let expr = funcStr.replace(/\^/g, '**');
-
-    // Mapear funções matemáticas
+    // Normalizar entrada: remover espaços e converter para minúsculas
+    let expr = funcStr.replace(/\s+/g, '').toLowerCase();
+    console.log(`Entrada original: "${funcStr}" -> Normalizada: "${expr}"`);
+    
+    // Substituir ^ por ** (potenciação)
+    expr = expr.replace(/\^/g, '**');
+    console.log(`Após substituir ^: "${expr}"`);
+    
+    // Adicionar multiplicação implícita para casos como 2x, 3x^2, etc.
+    expr = expr.replace(/(\d)([a-z])/g, '$1*$2');
+    expr = expr.replace(/([a-z])(\d)/g, '$1*$2');
+    expr = expr.replace(/\)([a-z])/g, ')*$1');
+    expr = expr.replace(/([a-z])\(/g, '$1*(');
+    console.log(`Após multiplicação implícita: "${expr}"`);
+    
+    // Mapear funções matemáticas (com parênteses para evitar conflitos)
     expr = expr
-        .replace(/sin/g, 'Math.sin')
-        .replace(/cos/g, 'Math.cos')
-        .replace(/tan/g, 'Math.tan')
-        .replace(/sqrt/g, 'Math.sqrt')
-        .replace(/log/g, 'Math.log')
-        .replace(/abs/g, 'Math.abs')
-        .replace(/exp/g, 'Math.exp')
-        .replace(/pi/g, 'Math.PI')
-        .replace(/e/g, 'Math.E');
+        .replace(/sin\(/g, 'Math.sin(')
+        .replace(/cos\(/g, 'Math.cos(')
+        .replace(/tan\(/g, 'Math.tan(')
+        .replace(/sqrt\(/g, 'Math.sqrt(')
+        .replace(/log\(/g, 'Math.log(')
+        .replace(/abs\(/g, 'Math.abs(')
+        .replace(/exp\(/g, 'Math.exp(')
+        .replace(/ln\(/g, 'Math.log(');
+    
+    // Substituir constantes
+    expr = expr
+        .replace(/\bpi\b/g, 'Math.PI')
+        .replace(/\be\b/g, 'Math.E');
+    
+    console.log(`Expressão final: "${expr}"`);
 
     // Criar função JS segura
-    return new Function('x', `return ${expr};`);
+    try {
+        const func = new Function('x', `return ${expr};`);
+        // Testar a função com um valor simples
+        const testValue = func(1);
+        console.log(`Teste da função com x=1: ${testValue}`);
+        return func;
+    } catch (error) {
+        console.error(`Erro ao criar função: ${error.message}`);
+        throw new Error(`Sintaxe inválida: ${error.message}`);
+    }
 }
 
 
