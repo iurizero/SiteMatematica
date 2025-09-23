@@ -1209,28 +1209,28 @@ function setupQuiz() {
     const quizData = [
         {
             correctAnswer: 'a',
-            correctFeedback: 'Correto! O valor de 200 MB/s que a velocidade se aproxima, mas nunca ultrapassa, é um exemplo de limite.',
-            incorrectFeedback: 'Incorreto. Quando um valor se aproxima de um número específico mas nunca o ultrapassa, estamos falando de um limite.'
+            correctFeedback: 'Correto!',
+            incorrectFeedback: 'Incorreto.'
         },
         {
             correctAnswer: 'b',
-            correctFeedback: 'Correto! A continuidade é o conceito matemático que garante que uma animação seja suave e sem "buracos" ou "saltos".',
-            incorrectFeedback: 'Incorreto. Uma animação suave sem saltos ou travamentos é um exemplo de continuidade em matemática.'
+            correctFeedback: 'Correto!',
+            incorrectFeedback: 'Incorreto.'
         },
         {
             correctAnswer: 'a',
-            correctFeedback: 'Correto! Quando x é muito grande, o termo 3x domina e 2/150x se aproxima de zero, então o limite é 3.',
-            incorrectFeedback: 'Incorreto. Quando x tende ao infinito em f(x)=3x+2/150x, o termo 2/150x tende a zero, e o limite é 3.'
+            correctFeedback: 'Correto!',
+            incorrectFeedback: 'Incorreto.'
         },
         {
             correctAnswer: 'b',
-            correctFeedback: 'Correto! Uma descontinuidade na função significa que a leitura pularia instantaneamente de um valor para outro.',
-            incorrectFeedback: 'Incorreto. Quando uma função não é contínua, ela apresenta "saltos" ou "pulos" instantâneos entre valores.'
+            correctFeedback: 'Correto!',
+            incorrectFeedback: 'Incorreto.'
         },
         {
             correctAnswer: 'c',
-            correctFeedback: 'Correto! Em uma descontinuidade removível, o valor que a função deveria ter no ponto pode ser determinado pelo limite.',
-            incorrectFeedback: 'Incorreto. Uma descontinuidade removível significa que o limite existe, mas a função não está definida ou tem valor diferente naquele ponto.'
+            correctFeedback: 'Correto!',
+            incorrectFeedback: 'Incorreto.'
         }
     ];
     
